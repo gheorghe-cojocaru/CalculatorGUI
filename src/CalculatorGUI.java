@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CalculatorGUI extends JFrame implements ActionListener {
@@ -32,8 +33,33 @@ public class CalculatorGUI extends JFrame implements ActionListener {
         display.setEditable(false);
         display.setHorizontalAlignment(SwingConstants.RIGHT);
         add(display, BorderLayout.NORTH);
-        
 
 
+        //Buttons ertellen und auf ein Panel legen
+        buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(5, 4));
+
+        for (int i = 0; i < buttons.length; i++) {
+            buttonArray[i] = new JButton(buttons[i]);
+            buttonArray[i].setFont(new Font("Arial", Font.BOLD, 24));
+            buttonArray[i].addActionListener(this);
+            buttonPanel.add(buttonArray[i]);
+
+        }
+
+        //Panel zum Frame hinzufügen
+        add(buttonPanel, BorderLayout.CENTER);
+
+        //Frame sichtbar machen
+        setVisible(true);
+
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand();
+        engine.processCommand(command);
+        display.setText(engine.getDisplayText());
     }
 }
